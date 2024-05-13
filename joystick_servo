@@ -1,0 +1,43 @@
+// Two joysticks that move two servo motors
+
+#include <Servo.h>
+
+// Create servo objects
+Servo servo1;
+Servo servo2;
+
+// Joystick connections
+int joystick1X = A0; // First joystick X-axis
+int joystick2X = A1; // Second joystick X-axis
+
+void setup() {
+  // Attach the servos to digital pins
+  servo1.attach(9); 
+  servo2.attach(10);
+
+  // Initialize the serial monitor at 9600 bps:
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read joystick values (which will range from 0 to 1023)
+  int joystick1XVal = analogRead(joystick1X);
+  int joystick2XVal = analogRead(joystick2X);
+
+  // Map the joystick values to a range suitable for the servos (usually 0 to 180 degrees)
+  int servo1Pos = map(joystick1XVal, 0, 1023, 0, 180);
+  int servo2Pos = map(joystick2XVal, 0, 1023, 0, 180);
+
+  // Set the servo positions
+  servo1.write(servo1Pos);
+  servo2.write(servo2Pos);
+
+  // Optional: print the positions to the serial monitor
+  Serial.print("Servo 1 Position: ");
+  Serial.print(servo1Pos);
+  Serial.print("\tServo 2 Position: ");
+  Serial.println(servo2Pos);
+
+  // Wait a bit for servo movements
+  delay(15);
+}
